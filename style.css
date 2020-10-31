@@ -1,0 +1,869 @@
+html {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Microsoft YaHei UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background: rgb(242, 242, 242);
+}
+
+body {
+    margin: 0;
+/*     background-color: #101010; */
+    /* background-image: url(./images/BACKGROUND_Dark.webp); */
+    color: #333333;
+}
+
+video{
+    margin-left: 22%;
+    width:56%;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+}
+
+h1 {
+    margin-bottom: 24px;
+    font-size: 40px;
+}
+
+.pad_top{
+    padding-top: 7%;
+}
+
+h2{
+    margin: 22px 0;
+    font-size: 30px;
+    font-weight: 500;
+    color: #333;
+}
+
+h4{
+    margin-bottom: 5px;
+}
+
+body.dark h1 {
+    color: white;
+}
+
+p {
+    margin-bottom: 24px;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+a {
+    text-decoration: none;
+}
+
+span.nowrap {
+    white-space: nowrap;
+}
+
+.footer-content {
+    max-width: 980px;
+    padding: 0 22px;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    margin: 0 auto;
+}
+
+/* If support max() */
+
+@supports (padding: max(0px)) {
+    .nav-content,
+    .footer-content {
+        padding-left: max(22px, env(safe-area-inset-left));
+        padding-right: max(22px, env(safe-area-inset-right));
+    }
+}
+
+main {
+    background-size : cover;
+    background-attachment: fixed;
+    background-color: #FAFAFA;
+}
+
+.text-center {
+    text-align: center;
+}
+
+section{
+    padding-bottom: 2rem;
+}
+
+.introduction {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    color:#333;
+}
+
+.index_introduction {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    color:#333;
+    text-shadow:0px 0px 10px #fff;
+    padding-top: 10%;
+}
+
+.index_p{
+background-color: #FAFAFA;
+padding: 20px 0;
+}
+
+.call-up {
+    margin: 32px auto;
+}
+
+.button {
+    display: block;
+    margin: 16px auto;
+    padding: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 24px;
+    width: 100px;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 5px;
+    /* background-color: rgba(198, 16, 39, 1); */
+    background-color: rgba(3, 136, 231, 1);
+    cursor: pointer;
+    transition: background-color 160ms ease 20ms;
+}
+
+/* .button:hover {
+    background-color: rgb(0, 109, 193);
+} */
+
+.button.disabled {
+    background-color: gray;
+    opacity: 0.5;
+}
+
+.comming-soon {
+    color: rgb(80, 80, 82);
+    font-size: 12px;
+}
+
+/* 若浏览器支持 backdrop-filter，则透明度为 50%，并启用毛玻璃 */
+@supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+    .textbox {
+/*        background: #2a2a2a;*/
+        border-radius: 15px;
+        max-width: 680px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 16px 8px;
+        background: rgba(0, 0, 0, 0.4);
+        color: #eee;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    }
+}
+
+/* 若浏览器器不支持，则不透明化 */
+@supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+    .textbox {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        max-width: 680px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 16px 8px;
+    }
+}
+
+.pre-order {
+    margin: 4px;
+}
+
+.about_me {
+    max-width: 680px;
+    margin: 64px auto;
+    counter-reset: steps-counter;
+}
+
+.step {
+    display: block;
+    position: relative;
+    margin: 30px 0;
+    padding: 2px 0 32px 68px;
+    width: calc(100% - 68px);
+}
+
+.step:not(:last-child) {
+    border-bottom: 1px solid #DDD;
+}
+
+.step:before {
+    content: counter(steps-counter);
+    counter-increment: steps-counter;
+    position: absolute;
+    left: 0;
+    top: -8px;
+    font-size: 72px;
+    font-weight: 200;
+    line-height: 1em;
+    color: #b00e23;
+}
+
+.step>div {
+    display: table-cell;
+}
+
+.step-text h4+p,
+.step-text p+* {
+    opacity: 0.6;
+}
+
+.step-text {
+    vertical-align: top;
+}
+
+.step-text p:last-child {
+    margin-bottom: 0;
+}
+
+.step-text-before-img {
+    padding-right: 32px;
+}
+
+a.step-link {
+    color: #c61027;
+    transition: color 280ms ease 20ms;
+}
+
+a.step-link:hover {
+    color: #e7132d;
+}
+
+.avatar_bg {
+    width: 200px;
+    height: 200px;
+    /* border-radius: 2px; */
+    background: rgba(0,0,0,0);
+    /* box-shadow: 0 3px 4px 1px #000; */
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: url("./images/Avatar.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+footer {
+    width: 100%;
+    padding-bottom: 40px;
+    line-height: 1.6;
+    background-color: #f2f2f2;
+}
+
+.footer-content {
+    display: block;
+    font-size: 12px;
+    color: rgb(88, 88, 88);
+}
+
+footer ol {
+    padding: 0 18px;
+    margin-top: 0;
+}
+
+footer ul{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.final {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 0px solid #d6d6d6;"
+}
+
+.copyright {
+    margin-right: 8px;
+    display: inline-block;
+}
+
+.language {
+    float: none;
+    display: block;
+    margin-top: 6px;
+}
+
+.language a {
+    color: rgb(150, 150, 150);
+    transition: color 240ms ease 40ms;
+}
+
+.language a:hover {
+    color: rgb(82, 180, 219);
+}
+
+@media ( min-width: 414px) {
+    br.plus {
+        display: none;
+    }
+    html[lang=zh-cmn-Hans-CN] footer .language {
+        float: right;
+        display: inline-block;
+        margin-top: 0;
+    }
+}
+
+@media ( min-width: 375px) {
+    html[lang=zh-cmn-Hans-CN] footer br.plus {
+        display: none;
+    }
+}
+
+@media ( min-width: 507px) {
+    .language {
+        float: right;
+        display: inline-block;
+        margin-top: 0;
+    }
+}
+
+.avatar-blur {
+    -webkit-filter: blur(10px);
+    /* Chrome, Opera */
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+}
+
+.articleCard {
+    position: relative;
+    display: block;
+    margin: 1em auto;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.articleCard_link_icon{
+    display:inline-flex;
+    align-items:center;
+}
+
+.article_title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 40px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: #333;
+    margin: 4px;
+}
+
+.articlecard-meta {
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 1.25;
+    color: #AAA;
+    text-align: left;
+}
+
+.articleCard-imageCell {
+    margin-left: 8px;
+    border-radius: 6px;
+}
+
+.articleCard-content {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 18px;
+    border-radius: inherit;
+    border-radius: 12px;
+/*    background-color: hsla(0,0%,96%,.88);*/
+    background-color: rgba(222, 222, 222, 0.7);
+}
+/* 若浏览器支持 backdrop-filter，则不透明度为 60%，并启用高斯模糊 */
+
+@supports ( -webkit-backdrop-filter: none) or ( backdrop-filter: none) {
+    .articleCard-content {
+        background-color: rgba(222, 222, 222, 0.7);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+                backdrop-filter: saturate(180%) blur(20px);
+    }
+}
+.article_introduction {
+    display: block;
+/*    margin-top: 4px;*/
+    font-size: 14px;
+/*    line-height: 1.25;*/
+    color: #666;
+    text-align:left;
+    margin: 4px;
+}
+
+.a_br{
+    display: inline;
+}
+
+p1 {
+/*    margin-bottom: 24px;*/
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+    word-wrap: break-word;
+    text-align:left;
+}
+
+.articleCard-image {
+    display: block;
+    width: 120px;
+    height: 120px;
+    border-radius: inherit;
+}
+
+@media screen and (max-width: 480px) {
+
+.articleCard-content {
+    padding: 12px;
+}
+    .articleCard-imageCell {
+        display: none;
+}
+
+    .a_br{
+    display: none;
+}   
+    .articleCard-image {
+    display: none;
+}
+    .articleCard {
+    width: 95%;
+}
+
+    .article_introduction {
+    font-size: 12px;
+}
+    .article_title {
+    font-size: 15px;
+}
+
+.articlecard-meta {
+    display: block;
+    font-size: 8px;
+}
+    h1 {
+    margin-bottom: 24px;
+    font-size: 25px;
+}
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px){  
+.articleCard-content {
+    padding: 12px;
+}
+    .articleCard-imageCell {
+        display: none;
+}
+    .a_br{
+    display: none;
+}   
+    
+     .articleCard {
+    width: 85%;
+}
+        .articleCard-image {
+    width: 70px;
+    height: 70px;
+}
+    .article_introduction {
+    font-size: 12px;
+
+}
+    .article_title {
+    font-size: 15px;
+}
+
+.articlecard-meta {
+    display: block;
+/*    margin-top: 4px;*/
+    font-size: 9px;
+    line-height: 1.25;
+    color: #666;
+    text-align: left;
+}
+    h1 {
+    margin: 24px 0;
+    font-size: 30px;
+}
+}
+
+html {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Microsoft YaHei UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	background: rgb(242, 242, 242);
+	-webkit-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.menu .header {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Microsoft YaHei UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+/*    background-color: #323436;*/
+	z-index: 9999;
+}
+
+.menu .inner {
+	/* width: 1000px; */
+	margin: 0 auto;
+	overflow: hidden;
+	zoom: 1;
+	z-index: 9999;
+}
+
+.menu h0 {
+	float: left;
+}
+
+.menu h0 img {
+	display: block;
+	border: 0;
+}
+
+.menu .nav {
+	float: right;
+	list-style-type: none;
+	font-family: "Microsoft Yahei";
+}
+
+.menu .nav li {
+	float: left;
+	margin-left: 5px;
+}
+
+.menu .nav a {
+	float: left;
+	color: #333;
+	text-decoration: none;
+}
+
+.menu .nav a:hover {
+    background-color: rgba(51,51,51,0.1);
+    border-radius: 8px;
+}
+
+/*.menu .large .header { position: fixed; left: 0; top: 0; width: 100%; }*/
+.menu .large .inner {
+	margin-left: -150px;
+	padding: 25px 300px 25px;
+	z-index: 9999;
+}
+
+.menu .large h0 img {
+    height: 64px;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 8px;
+}
+
+/* @supports ( -webkit-backdrop-filter: none) or ( backdrop-filter: none) {
+    .menu .large h0 img {
+        height: 64px;
+        background-color: rgba(255, 255, 255, 0.6);
+		-webkit-backdrop-filter: saturate(180%) blur(10px);
+		backdrop-filter: saturate(180%) blur(10px);
+        border-radius: 8px;
+    }
+} */
+
+.menu .large .nav {
+	padding-top: 10px;
+}
+
+.menu .large .nav a {
+	height: 44px;
+	padding: 0 20px;
+	line-height: 44px;
+	font-size: 18px;
+}
+
+/*.menu .small .header { position: fixed; left: 0; top: 0; width: 100%; background-color: #323436;}   */
+.menu .small .inner {
+	padding: 12px 300px 12px;
+	margin-left: -150px;
+	background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    border-bottom: rgba(235,235,235,0.7);
+    border-bottom-width: 1.4px;
+    border-bottom-style: solid;
+}
+
+.menu .small h0 img {
+	height: 34px;
+}
+
+.menu .small .nav {
+	padding-top: 3px;
+}
+
+.menu .small .nav a {
+	height: 28px;
+	padding: 0 10px;
+	line-height: 28px;
+	font-size: 14px;
+}
+
+.menu .header, .menu .inner, .menu a, .menu img, .menu li {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Microsoft YaHei UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	transition: all 1s;
+	-moz-transition: all 1s;
+	-webkit-transition: all 1s;
+	-o-transition: all 1s;
+}
+
+/* 若浏览器支持 backdrop-filter，则不透明度为 60%，并启用高斯模糊 */
+
+@supports ( -webkit-backdrop-filter: none) or ( backdrop-filter: none) {
+	.menu .small .inner {
+		padding: 12px 300px 12px;
+		margin-left: -150px;
+/*        background-color: #323436;*/
+		background-color: rgba(255, 255, 255, 0.6);
+		-webkit-backdrop-filter: saturate(180%) blur(20px);
+		backdrop-filter: saturate(180%) blur(20px);
+	}
+}
+
+.final {
+	margin-top: 8px;
+	padding-top: 8px;
+}
+
+.final_with_top_hr{
+    border-top: 1px solid #d6d6d6;
+}
+
+.hero {
+    background-image: url(./images/Shortcut-hero-full.jpg);
+    background-position: top;
+    background-attachment: fixed;
+    background-size: 130%;
+    padding-top: 10px;
+}
+    
+
+@media only screen and (min-width: 0px) and (max-width: 810px) {
+    
+    .hero{
+    background-image: none;
+    background-color: rgba(245,245,245,1);
+    background-attachment:scroll;
+    background-size: 100%;
+}
+    .description{
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 810px) and (max-width: 1200px) {
+.hero{
+    background-image: url(./images/Shortcut-hero.jpg);
+    background-position: center center;
+    background-attachment:fixed;
+    background-size: 150%;
+}
+}
+
+/* --- Photo Container --- */
+
+.container-wrap {
+    margin: 0 auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    width: 100%;
+    background-image: linear-gradient(#FAFAFA, rgb(238, 238, 238));
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-x: scroll; /* 1 */
+    /* -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000; */
+    -webkit-overflow-scrolling: touch; /* 2 */
+    text-align: justify; /* 3 */
+    /* &::-webkit-scrollbar {
+        display: none;
+    } */
+}
+
+.margin_bottom_3_rem{
+    margin-bottom: 3rem;
+}
+
+.photo_container > div {
+    display: inline-block;
+    height: 18rem;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    vertical-align: bottom;
+}
+
+.name, .description {
+    font-weight: 700;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .box {
+    width: 15rem;
+    /* height: 20rem; */
+    padding: 3rem 2rem;
+    -webkit-transition: opacity 0.5s linear 0.3s,
+      -webkit-transform 0.3s linear 0s,
+      -webkit-filter 0.5s linear 0.3s;
+    transition: opacity 0.5s linear 0.3s,
+      -webkit-transform 0.3s linear 0s,
+      -webkit-filter 0.5s linear 0.3s;
+    transition: transform 0.3s linear 0s,
+      filter 0.5s linear 0.3s,
+      opacity 0.5s linear 0.3s;
+    transition:
+      transform 0.3s linear 0s,
+      filter 0.5s linear 0.3s,
+      opacity 0.5s linear 0.3s,
+      -webkit-transform 0.3s linear 0s,
+      -webkit-filter 0.5s linear 0.3s;
+    /*transform-origin: top center;*/
+  }
+  .photo_frame {
+    position: relative;
+    bottom: 0px;
+    width: 15rem;
+    height: 18rem;
+    border-radius: 4px;
+    /* top: 20%; */
+    background-color: #fff;
+    /* background-position: top 3rem center; */
+    /* background-size: 80%; */
+    background-repeat: no-repeat;
+    box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+    -webkit-transition: box-shadow 0.5s linear, height 0.1s linear 0s;
+    transition: box-shadow 0.5s linear, height 0.1s linear 0s;
+}
+  .Book_Stories-of-your-life{
+      background-image: url(./images/books/Stories-of-your-life.jpeg);
+      background-size: 100%;
+      background-position-y: center;
+  }
+  .Book_At-the-existencialist-cafe{
+      background-image: url(./images/books/At-the-existencialist-cafe.jpeg);
+      background-size: 100%;
+      background-position-y: center;
+      background-position: top;
+  }
+  .Book_The-End-Of-History-And-The-Last-Man{
+      background-image: url(./images/books/The-End-Of-History-And-The-Last-Man.jpeg);
+      background-size: 100%;
+      background-position-y: center;
+  }
+  .Book_A-Song-Of-Ice-And-Fire{
+    background-image: url(./images/books/A-Song-Of-Ice-And-Fire.jpg);
+    background-size: 100%;
+    background-position-y: center;
+    background-position: top;
+  }
+  .name {
+    display: block;
+    padding: 1rem 0.5rem;
+  }
+  .description {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: block;
+    padding: 0 1.5rem;
+    opacity: 0;
+    -webkit-transition: opacity 0.1s linear 0s;
+    transition: opacity 0.1s linear 0s;
+  }
+  .wrapper:hover .box:not(:hover)  {
+    -webkit-filter: blur(3px);
+            filter: blur(3px);
+    opacity: 0.5;
+  }
+  .box:hover  {
+    -webkit-transform: scale(1.15);
+            transform: scale(1.15);
+    -webkit-transition: opacity 0.1s linear 0s,
+      -webkit-transform 0.3s linear 0.3s,
+      -webkit-filter 0.1s linear 0s;
+    transition: opacity 0.1s linear 0s,
+      -webkit-transform 0.3s linear 0.3s,
+      -webkit-filter 0.1s linear 0s;
+    transition: transform 0.3s linear 0.3s,
+      filter 0.1s linear 0s,
+      opacity 0.1s linear 0s;
+    transition:
+      transform 0.3s linear 0.3s,
+      filter 0.1s linear 0s,
+      opacity 0.1s linear 0s,
+      -webkit-transform 0.3s linear 0.3s,
+      -webkit-filter 0.1s linear 0s;
+  }
+  .box:hover .photo_frame {
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+    -webkit-transition: box-shadow 1s linear,
+      height 0.3s linear 0.5s;
+    transition:
+      box-shadow 1s linear,
+      height 0.3s linear 0.5s;
+  }
+  .box:hover .description {
+    opacity: 1;
+    -webkit-transition: opacity 0.3s linear 0.75s;
+    transition: opacity 0.3s linear 0.75s;
+  }
+  
+#extend_about_me{
+    background-color: #FAFAFA;
+    padding-bottom: 2rem;
+}
+
+.Apple_Music_iframe{
+    width:100%;
+    position: relative;
+    left: calc(50% - 330px);
+    max-width:660px;
+    overflow:hidden;
+    background:transparent;
+}
