@@ -13,8 +13,136 @@
 
     <link rel="icon" href="./images/LOGO.png">
     <link rel="stylesheet" type="text/css" href="./style.css">
-    <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script> -->
     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
+    <!-- <script type="text/javascript" src="./jquery.loading.js"></script> -->
+    <style>
+
+        .container {
+            padding-top: 3rem;
+            padding-bottom: 1rem;
+            padding-right: 1.5rem;
+            padding-left: 1.5rem;
+            max-width: 720px;
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .card{
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            border: 0;
+            border-radius: .35rem;
+            background-color: #fff;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .card-body{
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem;
+            padding: 0;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .row{
+            position: relative;
+            padding-right: 3.75rem;
+            padding-left: 3.75rem;
+            padding-bottom: 3rem;
+            padding-top: 3rem;
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .user{
+            display: block;
+            box-sizing: border-box; 
+        }
+        
+        form{
+            display: block;
+            margin-top: 0em;
+            box-sizing: border-box; 
+        }
+        
+        .form-group{
+            margin-bottom: 1rem;
+            display: block;
+            box-sizing: border-box; 
+        }
+        
+        .form-control {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            padding-left: 1rem;
+            border-radius: 10rem;
+            font-size: .8rem;
+            display: block;
+            width: calc(100% - 1rem);
+            height: calc(1.5em + .75rem + 2px);
+            border: 1px solid #d1d3e2;
+            background-color: #fff;
+            background-clip: padding-box;
+            color: #6e707e;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        .form-custom {
+            padding-top: 1.15rem;
+            /* padding-bottom: .75rem; */
+            padding-left: 2rem;
+            border-radius: 10rem;
+            font-size: .8rem;
+            display: block;
+            width: calc(100% - 1rem);
+            height: calc(1.5em + .75rem + 2px);
+            border: 1px solid #d1d3e2;
+            background-color: #fff;
+            color: #6e707e;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        .button {
+            padding: .75rem 1rem;
+            border-radius: 10rem;
+            font-size: 1rem;
+            cursor: pointer;
+            display: table-cell;
+            border-color: #4e73df;
+            border: 1px solid transparent;
+            text-align: center;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+            width: calc( 55% - 2.5rem);
+        }
+        
+        .login_button {
+            border-color: #4e73df;
+            border: 1px solid transparent;
+            text-align: center;
+            font-weight: 400;
+            line-height: 1.5;
+            width: 100%;
+            background-color: #4e73df;
+            color: #fff;
+        }
+        
+        a{
+            text-decoration: none;
+        }
+            </style>
 </head>
 <body class="menu">
 <div class="header small">
@@ -22,7 +150,7 @@
 	<div class="inner">
         <h0 style="margin-left: 7%;"><img src="./images/LOGO.png" alt="logo"></h0>
 		<ul class="nav" style="float: left;">
-			<li style="font-weight: 500;"><a href="#" title="XXX 单位">XXX 单位</a></li>
+			<li style="font-weight: 500;"><a href="#" title="XXX 单位">我真厉害单位</a></li>
 			<!-- <li><a href="./about_me.html" title="关于我">About Me</a></li> -->
 		</ul>
 	</div>
@@ -30,162 +158,134 @@
 </div>
 
 <main class="main">
-    <center><div id="chart" style="width: 900px; height:500px; padding-top: 8%; padding-bottom: 5%;"></div><center>
-    <script type="text/javascript">
+    <div class="container" id="loadfile">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+                  <div style="text-align: center;">
+                    <h1 class="h4" style="margin-bottom: 1.5rem; color:#333">加载文件</h1>
+                  </div>
+                  <form class="user" id="registration_form">
+                    <div class="form-group">
+                        <a class="form-custom">
+                            0-2KM 的文件：<input type="file" id="file" onchange="readFileT02(this);">
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <a class="form-custom">
+                            2-5KM 的文件：<input type="file" id="file" onchange="readFileT25(this);">
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <a class="form-custom">
+                            5-8KM 的文件：<input type="file" id="file" onchange="readFileT58(this);">
+                        </a>
+                    </div>
+                    <div style="display: table; position: relative; align-self: center; width: 100%;">
+                        <button type="button" class="button" id="submitForm" onclick="getData();" style="background-color: #4e73df;color: #fff;">提交</button>
+                        <button type="clear" class="button" id="resetForm" οnclick="formReset()" style="background-color: #EEE;color: #333; float: right;">重置</button>
+                    </div>
+                    
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div id="ChartPanel" style="display:none">
+        <center><div id="chart" style="width: 900px; height:500px; padding-top: 8%; padding-bottom: 5%;"></div><center>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="final">
+            <ul>
+                <li>Created by Tianyang Xu.</li>
+                <li>Commissioned by Qingdao Weather Station.</li>
+                <li>Personal use only.</li>
+            </ul>
+        </div>
+        <span class="thanks">
+            <em></em>
+        </span>
+
+        <div class="final final_with_top_hr">
+            <div class="copyright">Copyright © 2020 Dylan Xu
+            <br class="plus">All rights reserved.</div>
+            <div class="language">
+            <a href="https://github.com/Architect1st/">Github</a>
+        </div>
+        </div>
+    </div>
+</footer>
+</body>
+<script type="text/javascript">
+
+var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:10', '01:20', '01:30', '01:40', '01:50', '02:00', '02:10', '02:20', '02:30', '02:40', '02:50', '03:00', '03:10', '03:20', '03:30', '03:40', '03:50', '04:00', '04:10', '04:20', '04:30', '04:40', '04:50', '05:00', '05:10', '05:20', '05:30', '05:40', '05:50', '06:00', '06:10', '06:20', '06:30', '06:40', '06:50', '07:00', '07:10', '07:20', '07:30', '07:40', '07:50', '08:00', '08:10', '08:20', '08:30', '08:40', '08:50', '09:00', '09:10', '09:20', '09:30', '09:40', '09:50', '10:00', '10:10', '10:20', '10:30', '10:40', '10:50', '11:00', '11:10', '11:20', '11:30', '11:40', '11:50', '12:00', '12:10', '12:20', '12:30', '12:40', '12:50', '13:00', '13:10', '13:20', '13:30', '13:40', '13:50', '14:00', '14:10', '14:20', '14:30', '14:40', '14:50', '15:00', '15:10', '15:20', '15:30', '15:40', '15:50', '16:00', '16:10', '16:20', '16:30', '16:40', '16:50', '17:00', '17:10', '17:20', '17:30', '17:40', '17:50', '18:00', '18:10', '18:20', '18:30', '18:40', '18:50', '19:00', '19:10', '19:20', '19:30', '19:40', '19:50', '20:00', '20:10', '20:20', '20:30', '20:40', '20:50', '21:00', '21:10', '21:20', '21:30', '21:40', '21:50', '22:00', '22:10', '22:20', '22:30', '22:40', '22:50', '23:00', '23:10', '23:20', '23:30', '23:40', '23:50'];
+    var resultT02 = [];
+    var resultT25 = [];
+    var resultT58 = [];
+
+    var result = {"time": [],"t02": [],"t25": [],"t58": []};
+    // var precipitation = [];
+    
+    function readFileT02(input){
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.readAsText(file,'utf-8');
+        reader.onloadend = function() {
+            var fileContent=this.result;
+            var arrLine=fileContent.split("\n");
+            arrLine.map(i => {
+                let = item = i.split(",");
+                resultT02.push(parseFloat(item[2]))
+            })
+            console.log(resultT02)
+            console.log(JSON.stringify(resultT02))
+        }
+    }
+
+    function readFileT25(input){
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.readAsText(file,'utf-8');
+        reader.onloadend = function() {
+            var fileContent=this.result;
+            var arrLine=fileContent.split("\n");
+            arrLine.map(i => {
+                let = item = i.split(",");
+                resultT25.push(parseFloat(item[2]))
+            })
+            console.log(resultT25)
+            console.log(JSON.stringify(resultT25))
+        }
+    }
+
+    function readFileT58(input){
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.readAsText(file,'utf-8');
+        reader.onloadend = function() {
+            var fileContent=this.result;
+            var arrLine=fileContent.split("\n");
+            arrLine.map(i => {
+                let = item = i.split(",");
+                resultT58.push(parseFloat(item[2]))
+            })
+            console.log(resultT58)
+            console.log(JSON.stringify(resultT58))
+        }
+    }
+
+    function doChart(result){
+    // $('#ChartPanel').loading('stop');
+    // var result = {"time":["00:00","00:10","00:20","00:30","00:40","00:50","01:00","01:10","01:20","01:30","01:40","01:50","02:00","02:10","02:20","02:30","02:40","02:50","03:00","03:10","03:20","03:30","03:40","03:50","04:00","04:10","04:20","04:30","04:40","04:50","05:00","05:10","05:20","05:30","05:40","05:50","06:00","06:10","06:20","06:30","06:40","06:50","07:00","07:10","07:20","07:30","07:40","07:50","08:00","08:10","08:20","08:30","08:40","08:50","09:00","09:10","09:20","09:30","09:40","09:50","10:00","10:10","10:20","10:30","10:40","10:50","11:00","11:10","11:20","11:30","11:40","11:50","12:00","12:10","12:20","12:30","12:40","12:50","13:00","13:10","13:20","13:30","13:40","13:50","14:00","14:10","14:20","14:30","14:40","14:50","15:00","15:10","15:20","15:30","15:40","15:50","16:00","16:10","16:20","16:30","16:40","16:50","17:00","17:10","17:20","17:30","17:40","17:50","18:00","18:10","18:20","18:30","18:40","18:50","19:00","19:10","19:20","19:30","19:40","19:50","20:00","20:10","20:20","20:30","20:40","20:50","21:00","21:10","21:20","21:30","21:40","21:50","22:00","22:10","22:20","22:30","22:40","22:50","23:00","23:10","23:20","23:30","23:40","23:50"],"t02":[-94.8,-91.8,-76.1,-82.9,-98.3,-68.7,-52.4,-39.3,-14.6,22.5,-65.4,23.2,65.5,51.9,61.6,45.4,51.7,69.4,104.2,109.8,123.3,126.9,149.8,186.1,211.3,209.5,254.1,257,232.9,182.2,145.7,173.2,202.4,189.9,185.7,200,156.2,134.4,209.8,103.5,47.6,16.5,548.2,341.9,-297.1,0,0,-32.4,-456.8,-328.1,157.1,0,6.5,125.3,98.3,32.3,24,-0.4,16,-5.1,-45,-19.5,-18.7,-3.2,-7.8,11.5,5.9,8.3,-14.2,-18.3,-20.8,-11.8,-6.5,-20.5,-1.2,4.2,-10.9,-6.5,-7.3,5.1,-28.8,-41.2,-20,-18.3,-33.8,-22.3,0,-14.7,-30.8,-27.5,-24.3,-24.1,-26.9,-20.1,-10.5,-18.9,-2.9,0.4,-5.8,-1.9,-0.7,5.9,0.2,4.5,23,20.5,22.8,18.8,12.2,17.5,12.2,23.1,1.8,-31.2,13.9,3.5,0,-5.3,3.3,1.2,4.8,3,1.7,-8.4,-4.4,4.9,-7.5,-8.6,4.8,10.3,17,4.7,4.3,-9.9,6.4,1.1,4.7,6.5,9.9,6.4,-5.5,-12.7,-6.4,null],"t25":[-27,-14.3,14.1,2,-7.5,5.3,23.3,42.8,50.4,22.6,-102.4,0.7,-5.3,37.1,63.5,54.4,54.5,31.8,35.6,43.8,42.7,39.3,40.9,46.7,21.3,2.1,15.7,8.1,-8.6,16,17,23.7,7.3,-11.9,-4.4,-12.2,-31.7,-48.1,111.2,0,77,0,46.8,-38.5,0,406.7,617,0,762.5,0,0,185.5,0,449,310.6,311.4,515.2,517.9,444.5,428.2,385.5,348,302,333.4,199.9,78.7,101.5,221.3,181.7,188.3,160.3,190.2,251.8,286.6,232.9,0,234.8,247.3,114.9,0,-0.8,1.6,24.6,56,76.9,22.5,56.4,-9.5,25.9,33.2,13.3,9.8,27.2,17.4,-1.2,-7.6,45.3,-78.8,-39.5,-50.1,-25.9,-7.9,-9.6,-41.2,-6.6,14.3,-17.2,0,0,0,0,-17.8,-21.6,0,0,0,0,0,0,0,0,0,-17.6,11.3,0,0,-5.7,23.3,0,0,0,0,0,-4.4,0,3.2,-2.2,-2,-3.5,-4.3,0.7,-0.9,-17.5,null],"t58":[0,0,-0.1,0.3,-0.1,-1.6,-0.2,-0.1,0.2,0.7,0,0,0,-1,0,-5.1,-3.9,-1.8,-1.9,-1.3,-1.8,-1.2,-3.1,-0.9,-0.5,-0.6,-0.3,-1.5,-2.2,-0.5,0,0.1,0.1,0,-0.1,0.1,-4.8,0,405.7,0,588.7,0,470.1,258.8,0,303.9,-74.1,0,251.3,0,0,-47.8,0,-263.6,-123.8,-231.5,-321.9,-362.9,-345.9,-278.9,-178.3,-138.1,-139.7,-270,-43.4,-58.8,-59.8,-125.9,-76.1,-46.2,-160,-17,-256.5,-262.4,-160.6,0,-276.4,-102.3,-102,0,2.9,0,0.5,0,1.4,-12.1,0,0,0,0,0,0,0,0,-10,-33.8,-32.2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2,0,-0.7,0,0,0.4,0,26.7,null],"precipitation":[]}
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('chart'));
  
         // 指定图表的配置项和数据
         var option = {
-            dataset: {
-                    source: [
-                    ['time','0-2','2-5','5-8','降水量'],
-                    ['00:00',-94.8,-27,0.0,0],
-                    ['00:10',-91.8,-14.3,0.0,0],
-                    ['00:20',-76.1,14.1,-0.1,0],
-                    ['00:30',-82.9,2,0.3,0],
-                    ['00:40',-98.3,-7.5,-0.1,0],
-                    ['00:50',-68.7,5.3,-1.6,0],
-                    ['01:00',-52.4,23.3,-0.2,0],
-                    ['01:10',-39.3,42.8,-0.1,0],
-                    ['01:20',-14.6,50.4,0.2,0],
-                    ['01:30',22.5,22.6,0.7,0],
-                    ['01:40',-65.4,-102.4,0.0,0],
-                    ['01:50',23.2,0.7,0.0,0],
-                    ['02:00',65.5,-5.3,0.0,0],
-                    ['02:10',51.9,37.1,-1.0,0],
-                    ['02:20',61.6,63.5,0.0,0],
-                    ['02:30',45.4,54.4,-5.1,0],
-                    ['02:40',51.7,54.5,-3.9,0],
-                    ['02:50',69.4,31.8,-1.8,0],
-                    ['03:00',104.2,35.6,-1.9,0],
-                    ['03:10',109.8,43.8,-1.3,0],
-                    ['03:20',123.3,42.7,-1.8,0],
-                    ['03:30',126.9,39.3,-1.2,0],
-                    ['03:40',149.8,40.9,-3.1,0],
-                    ['03:50',186.1,46.7,-0.9,0],
-                    ['04:00',211.3,21.3,-0.5,0],
-                    ['04:10',209.5,2.1,-0.6,0],
-                    ['04:20',254.1,15.7,-0.3,0],
-                    ['04:30',257,8.1,-1.5,0],
-                    ['04:40',232.9,-8.6,-2.2,0],
-                    ['04:50',182.2,16,-0.5,0],
-                    ['05:00',145.7,17,0.0,0],
-                    ['05:10',173.2,23.7,0.1,0],
-                    ['05:20',202.4,7.3,0.1,0],
-                    ['05:30',189.9,-11.9,0.0,0],
-                    ['05:40',185.7,-4.4,-0.1,0],
-                    ['05:50',200,-12.2,0.1,0],
-                    ['06:00',156.2,-31.7,-4.8,0],
-                    ['06:10',134.4,-48.1,0.0,0],
-                    ['06:20', , , ,0],
-                    ['06:30',209.8,111.2,405.7,0],
-                    ['06:40',103.5,0,0.0,0],
-                    ['06:50',47.6,77,588.7,0],
-                    ['07:00',16.5,0,0.0,0],
-                    ['07:10',548.2,46.8,470.1,0],
-                    ['07:20',341.9,-38.5,258.8,0],
-                    ['07:30',-297.1,0,0.0,0],
-                    ['07:40',0,406.7,303.9,0],
-                    ['07:50',0,617,-74.1,0],
-                    ['08:00',-32.4,0,0.0,0],
-                    ['08:10',-456.8,762.5,251.3,0],
-                    ['08:20',-328.1,0,0.0,0],
-                    ['08:30',157.1,0,0.0,0],
-                    ['08:40',0,185.5,-47.8,0],
-                    ['08:50',6.5,0,0.0,0],
-                    ['09:00',125.3,449,-263.6,0],
-                    ['09:10',98.3,310.6,-123.8,0],
-                    ['09:20',32.3,311.4,-231.5,0],
-                    ['09:30',24,515.2,-321.9,0],
-                    ['09:40',-0.4,517.9,-362.9,0],
-                    ['09:50',16,444.5,-345.9,0],
-                    ['10:00',-5.1,428.2,-278.9,0],
-                    ['10:10',-45,385.5,-178.3,0],
-                    ['10:20',-19.5,348,-138.1,0],
-                    ['10:30',-18.7,302,-139.7,0],
-                    ['10:40',-3.2,333.4,-270.0,0],
-                    ['10:50',-7.8,199.9,-43.4,0],
-                    ['11:00',11.5,78.7,-58.8,0],
-                    ['11:10',5.9,101.5,-59.8,0],
-                    ['11:20',8.3,221.3,-125.9,0],
-                    ['11:30',-14.2,181.7,-76.1,0],
-                    ['11:40',-18.3,188.3,-46.2,0],
-                    ['11:50',-20.8,160.3,-160.0,0],
-                    ['12:00',-11.8,190.2,-17.0,0],
-                    ['12:10',-6.5,251.8,-256.5,0],
-                    ['12:20',-20.5,286.6,-262.4,0],
-                    ['12:30',-1.2,232.9,-160.6,0],
-                    ['12:40',4.2,0,0.0,0],
-                    ['12:50',-10.9,234.8,-276.4,0],
-                    ['13:00',-6.5,247.3,-102.3,0],
-                    ['13:10',-7.3,114.9,-102.0,0],
-                    ['13:20',5.1,0,0.0,0],
-                    ['13:30',-28.8,-0.8,2.9,0],
-                    ['13:40',-41.2,1.6,0.0,0],
-                    ['13:50',-20,24.6,0.5,0],
-                    ['14:00',-18.3,56,0.0,0],
-                    ['14:10',-33.8,76.9,1.4,0],
-                    ['14:20',-22.3,22.5,-12.1,0],
-                    ['14:30',0,56.4,0.0,0],
-                    ['14:40',-14.7,-9.5,0.0,0],
-                    ['14:50',-30.8,25.9,0.0,0],
-                    ['15:00',-27.5,33.2,0.0,0],
-                    ['15:10',-24.3,13.3,0.0,0],
-                    ['15:20',-24.1,9.8,0.0,0],
-                    ['15:30',-26.9,27.2,0.0,0.2],
-                    ['15:40',-20.1,17.4,0.0,0.1],
-                    ['15:50',-10.5,-1.2,-10.0,0.2],
-                    ['16:00',-18.9,-7.6,-33.8,0.1],
-                    ['16:10',-2.9,45.3,-32.2,0],
-                    ['16:20',0.4,-78.8,0.0,0.4],
-                    ['16:30',-5.8,-39.5,0.0,0.1],
-                    ['16:40',-1.9,-50.1,0.0,0.2],
-                    ['16:50',-0.7,-25.9,0.0,0.3],
-                    ['17:00',5.9,-7.9,0.0,0],
-                    ['17:10',0.2,-9.6,0.0,0],
-                    ['17:20',4.5,-41.2,0.0,0],
-                    ['17:30',23,-6.6,0.0,0],
-                    ['17:40',20.5,14.3,0.0,0],
-                    ['17:50',22.8,-17.2,0.0,0],
-                    ['18:00',18.8,0,0.0,0],
-                    ['18:10',12.2,0,0.0,0],
-                    ['18:20',17.5,0,0.0,0],
-                    ['18:30',12.2,0,0.0,0],
-                    ['18:40',23.1,-17.8,0.0,0],
-                    ['18:50',1.8,-21.6,0.0,0],
-                    ['19:00',-31.2,0,0.0,0],
-                    ['19:10',13.9,0,0.0,0],
-                    ['19:20',3.5,0,0.0,0],
-                    ['19:30',0,0,0.0,0],
-                    ['19:40',-5.3,0,0.0,0],
-                    ['19:50',3.3,0,0.0,0],
-                    ['20:00',1.2,0,0.0,0],
-                    ['20:10',4.8,0,0.0,0],
-                    ['20:20',3,0,0.0,0],
-                    ['20:30',1.7,-17.6,0.0,0],
-                    ['20:40',-8.4,11.3,0.0,0],
-                    ['20:50',-4.4,0,0.0,0],
-                    ['21:00',4.9,0,0.0,0],
-                    ['21:10',-7.5,-5.7,0.0,0],
-                    ['21:20',-8.6,23.3,0.0,0],
-                    ['21:30',4.8,0,0.0,0],
-                    ['21:40',10.3,0,0.0,0],
-                    ['21:50',17,0,0.0,0],
-                    ['22:00',4.7,0,0.0,0],
-                    ['22:10',4.3,0,0.0,0],
-                    ['22:20',-9.9,-4.4,0.0,0],
-                    ['22:30',6.4,0,0.0,0],
-                    ['22:40',1.1,3.2,0.2,0],
-                    ['22:50',4.7,-2.2,0.0,0],
-                    ['23:00',6.5,-2,-0.7,0],
-                    ['23:10',9.9,-3.5,0.0,0],
-                    ['23:20',6.4,-4.3,0.0,0],
-                    ['23:30',-5.5,0.7,0.4,0],
-                    ['23:40',-12.7,-0.9,0.0,0],
-                    ['23:50',-6.4,-17.5,26.7,0]
-                ]
-                },
     color:['#4DC85D','#FF6868','#4AA8FF','#F7B500'],
     title: {
         text: '风暴相对螺旋度可视化',
@@ -246,28 +346,19 @@
             name: '0-2 KM',
             type: 'line',
             lineStyle:{color:'#4DC85D'},
-            encode: {
-                x: 'time',
-                y: '0-2'
-            },
+            data : result.t02,
         },
         {
             name: '2-5 KM',
             type: 'line',
             lineStyle:{color:'#FF6868'},
-            encode: {
-                x: 'time',
-                y: '2-5'
-            },
+            data : result.t25,
         },
         {
             name: '5-8 KM',
             type: 'line',
             lineStyle:{color:'#4AA8FF'},
-            encode: {
-                x: 'time',
-                y: '5-8'
-            },
+            data : result.t58,
             markLine: {
                 silent: true,
                 data: [{yAxis: 200}]
@@ -278,40 +369,28 @@
             type: 'bar',
             yAxisIndex: 1,
             lineStyle:{color:'#F7B500'},
-            encode: {
-                x: 'time',
-                y: '降水量'
-            },
+            data : result.precipitation
         }
     ]
 };
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
+    }
+
+    function getData(){
+        for (var i = 0; i < time.length; i++) {
+            result.time.push(time[i]);
+            result.t02.push(resultT02[i]);
+            result.t25.push(resultT25[i]);
+            result.t58.push(resultT58[i]);
+        }
+        console.log(result)
+        console.log(JSON.stringify(result))
+        var t = document.getElementById('loadfile');
+        t.style.display = 'none'; // 隐藏
+        doChart(result);
+        var c = document.getElementById('ChartPanel');
+        c.style.display = 'block'; // 显示图表
+    }
     </script>
-</main>
-
-<footer>
-    <div class="footer-content">
-        <div class="final">
-            <ul>
-                <li>Created by Tianyang Xu.</li>
-                <li>Commissioned by Qingdao Weather Station.</li>
-                <li>Personal use only.</li>
-            </ul>
-        </div>
-        <span class="thanks">
-            <em></em>
-        </span>
-
-        <div class="final final_with_top_hr">
-            <div class="copyright">Copyright © 2020 Dylan Xu
-            <br class="plus">All rights reserved.</div>
-            <div class="language">
-            <a href="https://github.com/Architect1st/">Github</a>
-        </div>
-        </div>
-    </div>
-</footer>
-</body>
-
 </html>
