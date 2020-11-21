@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="./Essential/style.css">
     <script src="./Essential/echarts.min.js"></script>
     <script type="text/javascript" src="./Essential/jquery-1.11.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./Essential/moment-timezone-with-data.js"></script>
     <style>
 
         .container {
@@ -142,7 +144,12 @@
 	<div class="inner">
         <h0 style="margin-left: 7%;"><img src="./Essential/images/LOGO.png" alt="logo"></h0>
 		<ul class="nav" style="float: left;">
-			<li style="font-weight: 500;"><a href="#" title="风暴螺旋度显示程序">风暴螺旋度显示程序</a></li>
+            <li style="font-weight: 500;"><a href="#" title="风暴螺旋度显示程序">风暴螺旋度显示程序</a></li>
+        </ul>
+        <ul class="nav" style="float: right;">
+            <li style="font-weight: 800; color: #000000"><a href="./SRH 显示程序.html" title="显示程序">数据可视化</a></li>
+            <li style="color: #888888"><a href="./转换程序.html" title="转换程序">增补自动站数据</a></li>
+            <li style="color: #888888"><a href="./垂直速度显示程序.html" title="垂直速度显示程序">垂直速度数据可视化</a></li>
 		</ul>
 	</div>
     </center>
@@ -154,22 +161,12 @@
           <div class="card-body">
             <div class="row">
                   <div style="text-align: center;">
-                    <h1 class="h4" style="margin-bottom: 1.5rem; color:#333">加载文件</h1>
+                    <h1 class="h4" style="margin-bottom: 1.5rem; color:#333">加载绘图文件</h1>
                   </div>
                   <form class="user" id="registration_form">
                     <div class="form-group">
                         <a class="form-custom">
-                            0-2KM 的文件：<input type="file" id="inputT02" onchange="readFileT02(this);">
-                        </a>
-                    </div>
-                    <div class="form-group">
-                        <a class="form-custom">
-                            2-5KM 的文件：<input type="file" id="inputT25" onchange="readFileT25(this);">
-                        </a>
-                    </div>
-                    <div class="form-group">
-                        <a class="form-custom">
-                            5-8KM 的文件：<input type="file" id="inputT58" onchange="readFileT58(this);">
+                            请选择文件：<input type="file" id="inputFile" onchange="readFile(this);" accept="text/csv">
                         </a>
                     </div>
                     <div style="display: table; position: relative; align-self: center; width: 100%;">
@@ -184,7 +181,7 @@
       </div>
 
     <div id="ChartPanel" style="display:none">
-        <center><div id="chart" style="width: 900px; height:500px; padding-top: 8%; padding-bottom: 5%;"></div><center>
+        <center><div id="chart" style="width: 1200; height:500; padding-top: 8%; padding-bottom: 5%;"></div><center>
     </div>
 </main>
 
@@ -218,31 +215,17 @@ function getFileName(o){
     return o.substring(pos+1);  
 }
 
-var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:10', '01:20', '01:30', '01:40', '01:50', '02:00', '02:10', '02:20', '02:30', '02:40', '02:50', '03:00', '03:10', '03:20', '03:30', '03:40', '03:50', '04:00', '04:10', '04:20', '04:30', '04:40', '04:50', '05:00', '05:10', '05:20', '05:30', '05:40', '05:50', '06:00', '06:10', '06:20', '06:30', '06:40', '06:50', '07:00', '07:10', '07:20', '07:30', '07:40', '07:50', '08:00', '08:10', '08:20', '08:30', '08:40', '08:50', '09:00', '09:10', '09:20', '09:30', '09:40', '09:50', '10:00', '10:10', '10:20', '10:30', '10:40', '10:50', '11:00', '11:10', '11:20', '11:30', '11:40', '11:50', '12:00', '12:10', '12:20', '12:30', '12:40', '12:50', '13:00', '13:10', '13:20', '13:30', '13:40', '13:50', '14:00', '14:10', '14:20', '14:30', '14:40', '14:50', '15:00', '15:10', '15:20', '15:30', '15:40', '15:50', '16:00', '16:10', '16:20', '16:30', '16:40', '16:50', '17:00', '17:10', '17:20', '17:30', '17:40', '17:50', '18:00', '18:10', '18:20', '18:30', '18:40', '18:50', '19:00', '19:10', '19:20', '19:30', '19:40', '19:50', '20:00', '20:10', '20:20', '20:30', '20:40', '20:50', '21:00', '21:10', '21:20', '21:30', '21:40', '21:50', '22:00', '22:10', '22:20', '22:30', '22:40', '22:50', '23:00', '23:10', '23:20', '23:30', '23:40', '23:50'];
-    var resultT02 = [];
-    var resultT25 = [];
-    var resultT58 = [];
+function toTimeZone(time) {
+    var format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    var returnFormat = 'YYYY/MM/DD HH:mm';
+    return moment(time, format).tz("Asia/Shanghai").format(returnFormat);
+}
+    // var time = [];
+    // var result = {"time":[], "t02":[], "t25":[], "t58":[], "title":[]};
+    var result = [];
+
     // var precipitation = [];
-    var result = {"time": [],"t02": [],"t25": [],"t58": [], "title":[]};
-
-    function readFileT02(input){
-        var file = input.files[0];
-        var reader = new FileReader();
-
-        reader.readAsText(file,'utf-8');
-        reader.onloadend = function() {
-            var fileContent=this.result;
-            var arrLine=fileContent.split("\n");
-            arrLine.map(i => {
-                let = item = i.split(",");
-                resultT02.push(parseFloat(item[2]))
-            })
-            console.log(resultT02)
-            console.log(JSON.stringify(resultT02))
-        }
-    }
-
-    function readFileT25(input){
+    function readFile(input){
         var file = input.files[0];
         var reader = new FileReader();
         reader.readAsText(file,'utf-8');
@@ -250,29 +233,72 @@ var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:1
             var fileContent=this.result;
             var arrLine=fileContent.split("\n");
             arrLine.map(i => {
-                let = item = i.split(",");
-                resultT25.push(parseFloat(item[2]))
+                let = item = i.split(" ").join("").split(",");
+                if (item[0] != ""){
+                    // new Date("2016/08/03 00:00:00");
+                    var yearArr = []
+                    yearArr.push(item[0][0]);
+                    yearArr.push(item[0][1]);
+                    yearArr.push(item[0][2]);
+                    yearArr.push(item[0][3]);
+                    var year = yearArr.join("");
+                    // "2020"
+
+                    var monthArr = []
+                    monthArr.push(item[0][4]);
+                    monthArr.push(item[0][5]);
+                    var month = monthArr.join("");
+                    // "11"
+
+                    var dayArr = [];
+                    dayArr.push(item[0][6]);
+                    dayArr.push(item[0][7]);
+                    var day = dayArr.join("");
+                    //"05"
+
+                    var time = item[1].trim();
+                    //"21:26"
+
+                    var timestringArr = [];
+                    timestringArr.push(year);
+                    timestringArr.push("/");
+                    timestringArr.push(month);
+                    timestringArr.push("/");
+                    timestringArr.push(day);
+                    timestringArr.push(" ");
+                    timestringArr.push(time);
+                    timestringArr.push(":00  +0800");
+                    var timestring = timestringArr.join("");
+                    // "2020/11/06 21:26:00"
+                    // console.log(timestring)
+
+                    // new Date(timestring);
+                    // var timestamp = new Date(timestring).getTime();
+                    // console.log(timestamp)
+                    // var timestamp = Date.parse(Date(timestring));
+                    //Fri Nov 06 2020 21:26:00 GMT+0800 (CST)
+
+                    var CSTtime = toTimeZone(timestring);
+
+                    result.push({
+                        "time": CSTtime,
+                        "t02": parseFloat(item[2]),
+                        "t25": parseFloat(item[3]),
+                        "t58": parseFloat(item[4]),
+                        "precipitation": parseFloat(item[5]),
+                    });
+                }
             })
-            console.log(resultT25)
-            console.log(JSON.stringify(resultT25))
+            console.log(result)
+            console.log(JSON.stringify(result))
         }
     }
 
-    function readFileT58(input){
-        var file = input.files[0];
-        var reader = new FileReader();
-        reader.readAsText(file,'utf-8');
-        reader.onloadend = function() {
-            var fileContent=this.result;
-            var arrLine=fileContent.split("\n");
-            arrLine.map(i => {
-                let = item = i.split(",");
-                resultT58.push(parseFloat(item[2]))
-            })
-            console.log(resultT58)
-            console.log(JSON.stringify(resultT58))
-        }
-    }
+    // var data = [
+    // {value:['2016/12/18 6:38:08', 80]},
+    // {value:['2016/12/18 16:18:18', 60]},
+    // {value:['2016/12/18 19:18:18', 90]}
+    // ];
 
     function doChart(result){
         // 基于准备好的dom，初始化echarts实例
@@ -280,7 +306,13 @@ var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:1
  
         // 指定图表的配置项和数据
         var option = {
-    color:['#4DC85D','#FF6868','#4AA8FF','#F7B500'],
+    color:['#4DC85D','#FF6868','#4AA8FF','#C58AD5'],
+    dataset: {
+        // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
+        // 如果不指定 dimensions，也可以通过指定 series.encode 完成映射，参见后文。
+        dimensions: ['time', 't02', 't25', 't58', 'precipitation'],
+        source: result,
+    },
     title: {
         text: result.title,
         // subtext: 'SRH 在不同高度区间上随时间的变化',
@@ -311,8 +343,15 @@ var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:1
     }],
     xAxis: {
         type: 'category',
-        boundaryGap: false,
-        data: ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:10', '01:20', '01:30', '01:40', '01:50', '02:00', '02:10', '02:20', '02:30', '02:40', '02:50', '03:00', '03:10', '03:20', '03:30', '03:40', '03:50', '04:00', '04:10', '04:20', '04:30', '04:40', '04:50', '05:00', '05:10', '05:20', '05:30', '05:40', '05:50', '06:00', '06:10', '06:20', '06:30', '06:40', '06:50', '07:00', '07:10', '07:20', '07:30', '07:40', '07:50', '08:00', '08:10', '08:20', '08:30', '08:40', '08:50', '09:00', '09:10', '09:20', '09:30', '09:40', '09:50', '10:00', '10:10', '10:20', '10:30', '10:40', '10:50', '11:00', '11:10', '11:20', '11:30', '11:40', '11:50', '12:00', '12:10', '12:20', '12:30', '12:40', '12:50', '13:00', '13:10', '13:20', '13:30', '13:40', '13:50', '14:00', '14:10', '14:20', '14:30', '14:40', '14:50', '15:00', '15:10', '15:20', '15:30', '15:40', '15:50', '16:00', '16:10', '16:20', '16:30', '16:40', '16:50', '17:00', '17:10', '17:20', '17:30', '17:40', '17:50', '18:00', '18:10', '18:20', '18:30', '18:40', '18:50', '19:00', '19:10', '19:20', '19:30', '19:40', '19:50', '20:00', '20:10', '20:20', '20:30', '20:40', '20:50', '21:00', '21:10', '21:20', '21:30', '21:40', '21:50', '22:00', '22:10', '22:20', '22:30', '22:40', '22:50', '23:00', '23:10', '23:20', '23:30', '23:40', '23:50']
+        // type: 'time',
+        // boundaryGap: false,
+        splitLine: {
+            show: true,
+            lineStyle:{
+                    type:'dotted'    //设置网格线类型 dotted：虚线   solid:实线 dashed
+            },
+      },
+        // data: result.time
     },
     yAxis: [
     {
@@ -320,8 +359,18 @@ var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:1
             name: 'SRH',
             axisLabel: {
                 formatter: '{value} m²/s²'
-            }
-        },{
+            },
+            minorSplitLine:{
+                show: true,
+            },
+            splitLine: {
+                show: true,
+                lineStyle:{
+                    type:'dotted'    //设置网格线类型 dotted：虚线   solid:实线
+                },
+            },
+        },
+        {
             type: 'value',
             name: '降水量',
             axisLabel: {
@@ -349,14 +398,15 @@ var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:1
             data : result.t58,
             markLine: {
                 silent: true,
-                data: [{yAxis: 200}]
+                data: [{yAxis: 100},{yAxis: 200}],
+                lineStyle: {type: 'solid', color:'#F7B500'},
             }
         },
         {
             name: '降水量',
             type: 'bar',
             yAxisIndex: 1,
-            lineStyle:{color:'#F7B500'},
+            lineStyle:{color:'#C58AD5'},//C58AD5
             data : result.precipitation
         }
     ]
@@ -368,38 +418,17 @@ var time = ['00:00', '00:10', '00:20', '00:30', '00:40', '00:50', '01:00', '01:1
     function unique(arr) {return Array.from(new Set(arr))}
     
     function getData(){
-        var fileT02 = $("#inputT02").val();
-        if (fileT02 != ""){
-            var T02Title = getFileName(fileT02).split(".");
-            result.title.push(T02Title[0]);
-            if (T02Title[1] != "T02"){alert('提示: 0-2KM 文件可能选错了.');}
-        }
-        var fileT25 = $("#inputT25").val();
-        if (fileT25 != ""){
-            var T25Title = getFileName(fileT25).split(".");
-            result.title.push(T25Title[0]);
-            if (T25Title[1] != "T25"){alert('提示: 2-5KM 文件可能选错了.');}
+        // for (i = 0; i < result.length; i++) {
+        //     data.push(result[i]);
+        //     data[i].name = result[i].name.substring(10, 18);
+        // }
+        var FileName = $("#inputFile").val();
+        if (FileName != ""){
+            var Title = getFileName(FileName).split(".");
+            // result.title.push(Title[0]);
+            // if (T02Title[1] != "T02"){alert('提示: 0-2KM 文件可能选错了.');}
         }
 
-        var fileT58 = $("#inputT58").val();
-        if (fileT58 != ""){
-            var T58Title = getFileName(fileT58).split(".");
-            result.title.push(T58Title[0]);
-            if (T58Title[1] != "T58"){alert('提示: 5-8KM 文件可能选错了.');}
-        }
-
-        result.title = unique(result.title);
-        //if 如果文 result.title 长度大于 1 则显示 alert: 所选的数据可能不在同一天
-        if (result.title.length > 1){
-            alert('提示: 检测到多个日期, 所选的数据可能不在同一天.');
-        }
-
-        for (var i = 0; i < time.length; i++) {
-            result.time.push(time[i]);
-            result.t02.push(resultT02[i]);
-            result.t25.push(resultT25[i]);
-            result.t58.push(resultT58[i]);
-        }
         console.log(result)
         console.log(JSON.stringify(result))
         var t = document.getElementById('loadfile');

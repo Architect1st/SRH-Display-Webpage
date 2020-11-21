@@ -1,0 +1,402 @@
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>风暴相对螺旋度可视化</title>
+
+    <link rel="icon" href="./Essential/images/LOGO.png">
+    <link rel="stylesheet" type="text/css" href="./Essential/style.css">
+    <script src="./Essential/echarts.min.js"></script>
+    <script type="text/javascript" src="./Essential/jquery-1.11.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./Essential/moment-timezone-with-data.js"></script>
+    <style>
+
+        .container {
+            padding-top: 3rem;
+            padding-bottom: 1rem;
+            padding-right: 1.5rem;
+            padding-left: 1.5rem;
+            max-width: 720px;
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .card{
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            border: 0;
+            border-radius: .35rem;
+            background-color: #fff;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .card-body{
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem;
+            padding: 0;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .row{
+            position: relative;
+            padding-right: 3.75rem;
+            padding-left: 3.75rem;
+            padding-bottom: 3rem;
+            padding-top: 3rem;
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        .user{
+            display: block;
+            box-sizing: border-box; 
+        }
+        
+        form{
+            display: block;
+            margin-top: 0em;
+            box-sizing: border-box; 
+        }
+        
+        .form-group{
+            margin-bottom: 1rem;
+            display: block;
+            box-sizing: border-box; 
+        }
+        
+        .form-control {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            padding-left: 1rem;
+            border-radius: 10rem;
+            font-size: .8rem;
+            display: block;
+            width: calc(100% - 1rem);
+            height: calc(1.5em + .75rem + 2px);
+            border: 1px solid #d1d3e2;
+            background-color: #fff;
+            background-clip: padding-box;
+            color: #6e707e;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        .form-custom {
+            padding-top: 1.15rem;
+            /* padding-bottom: .75rem; */
+            padding-left: 2rem;
+            border-radius: 10rem;
+            font-size: .8rem;
+            display: block;
+            width: calc(100% - 1rem);
+            height: calc(1.5em + .75rem + 2px);
+            border: 1px solid #d1d3e2;
+            background-color: #fff;
+            color: #6e707e;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        .button {
+            padding: .75rem 1rem;
+            border-radius: 10rem;
+            font-size: 1rem;
+            cursor: pointer;
+            display: table-cell;
+            border-color: #4e73df;
+            border: 1px solid transparent;
+            text-align: center;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+            width: calc( 55% - 2.5rem);
+        }
+        
+        .login_button {
+            border-color: #4e73df;
+            border: 1px solid transparent;
+            text-align: center;
+            font-weight: 400;
+            line-height: 1.5;
+            width: 100%;
+            background-color: #4e73df;
+            color: #fff;
+        }
+        
+        a{
+            text-decoration: none;
+        }
+            </style>
+</head>
+<body class="menu">
+<div class="header small">
+    <center>
+	<div class="inner">
+        <h0 style="margin-left: 7%;"><img src="./Essential/images/LOGO.png" alt="logo"></h0>
+		<ul class="nav" style="float: left;">
+            <li style="font-weight: 500;"><a href="#" title="风暴螺旋度显示程序">风暴螺旋度显示程序</a></li>
+        </ul>
+        <ul class="nav" style="float: right;">
+            <li style="color: #888888"><a href="./SRH 显示程序.html" title="SRH 显示程序">SRH 数据可视化</a></li>
+            <li style="color: #888888"><a href="./转换程序.html" title="转换程序">增补自动站数据</a></li>
+            <li style="font-weight: 800; color: #000000"><a href="./垂直速度显示程序.html" title="垂直速度显示程序">垂直速度数据可视化</a></li>
+		</ul>
+	</div>
+    </center>
+</div>
+
+<main class="main">
+    <div class="container" id="loadfile">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+                  <div style="text-align: center;">
+                    <h1 class="h4" style="margin-bottom: 1.5rem; color:#333">加载垂直速度文件</h1>
+                  </div>
+                  <form class="user" id="registration_form">
+                    <div class="form-group">
+                        <a class="form-custom">
+                            请选择文件：<input type="file" id="inputFile" onchange="readFile(this);" accept="text/csv">
+                        </a>
+                    </div>
+                    <div style="display: table; position: relative; align-self: center; width: 100%;">
+                        <button type="button" class="button" id="submitForm" onclick="getData();" style="background-color: #4e73df;color: #fff;">提交</button>
+                        <button type="clear" class="button" id="resetForm" οnclick="formReset()" style="background-color: #EEE;color: #333; float: right;">重置</button>
+                    </div>
+                    
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div id="ChartPanel" style="display:none">
+        <center><div id="chart" style="width: 1200; height:500; padding-top: 8%; padding-bottom: 5%;"></div><center>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="final">
+            <ul>
+                <li>Created by Tianyang Xu.</li>
+                <li>Commissioned by Qingdao Weather Station.</li>
+                <li>Personal use only.</li>
+            </ul>
+        </div>
+        <span class="thanks">
+            <em></em>
+        </span>
+
+        <div class="final final_with_top_hr">
+            <div class="copyright">Copyright © 2020 Dylan Xu
+            <br class="plus">All rights reserved.</div>
+            <div class="language">
+            <a href="https://github.com/Architect1st/">Github</a>
+        </div>
+        </div>
+    </div>
+</footer>
+</body>
+<script type="text/javascript">
+
+    function getFileName(o){
+        var pos=o.lastIndexOf("\\");
+        return o.substring(pos+1);  
+    }
+    var DataTitle = [];
+    var xData = [];
+    var yData = [0.12,0.24,0.36,0.48,0.6,0.72,0.84,0.96,1.08,1.2,1.32,1.44,1.56,1.68,1.8,1.92,2.16,2.4,2.64,2.88,3.12,3.36,3.6,3.84,4.08,4.32,4.56,4.8,5.04,5.28,5.52,5.76,6.0,6.24,6.48,6.72,6.96,7.2,7.44,7.68,7.92,8.16,8.4,8.64,8.88,9.12,9.36,9.6,9.84,10.08,10.32,10.56];
+    var resultP = [];
+    var resultN = [];
+    var DataMax = 0;
+    var DataMin = 0;
+    var DataSecMin = 0;
+
+    function readFile(input){
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.readAsText(file,'utf-8');
+        reader.onloadend = function() {
+            var fileContent=this.result;
+            var arrLine=fileContent.split("\n");
+            for (var i = 1; i < arrLine.length; i++){ // 遍历所有行
+                var LineContent = arrLine[i].split(","); // 每一行的内容
+                var currentTime = [];
+                currentTime.push(LineContent[0]); // date
+                currentTime.push(LineContent[1]); // time
+                currentTime = currentTime.join(" ");
+                xData.push(currentTime);
+                for (var j = 3; j < LineContent.length; j++){
+                    var value = parseFloat(LineContent[j]);
+                    if (value < DataMin){
+                        DataSecMin = DataMin;
+                        DataMin = value;
+                        };
+                    if (value > DataMin && value < DataSecMin){
+                        // DataMin = DataSecMin;
+                        DataSecMin = value;
+                        };
+                    if (value > DataMax){DataMax = value}
+                    
+                    if (value >= 0){
+                        resultP.push([currentTime, j-2, value]);
+                    }
+                    if (value < 0){
+                        resultN.push([currentTime, j-2, value]);
+                    }
+                    // result.push([currentTime, j-2, value]);
+                }
+            }
+            console.log(DataMax)
+            console.log(DataMin)
+            // console.log(JSON.stringify(result))
+        }
+    }
+
+    function doChart(resultP, resultN){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart'));
+        option = {
+            tooltip: {
+                trigger: 'item',
+                textStyle:{
+                    align:'left'
+                },
+                formatter: function (params) {
+                    // console.log(params); // 当我们想要自定义提示框内容时，可以先将鼠标悬浮的数据打印出来，然后根据需求提取出来即可
+                    var x = params.data[0];
+                    var y = params.data[1];
+                    var value = params.data[2];
+                    return "时间: " + x + '<br>' + "高度层数: " + y + '<br>' + "垂直速度: " + value + '<br>';
+                }
+            },
+            title: {
+                text: DataTitle,
+                left: 20,
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                restore: {},
+                saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: xData
+            },
+            yAxis: {
+                type: 'category',
+                data: yData,
+                axisLabel: {
+                formatter: '{value} KM'
+                },
+            },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    xAxisIndex: 0,
+                    start: 0,
+                    end: 20,
+                    filterMode: 'empty'
+                },
+                {
+                    type: 'slider',
+                    yAxisIndex: 0,
+                    filterMode: 'empty'
+                },
+                {
+                    type: 'inside',
+                    xAxisIndex: 0,
+                    start: 0,
+                    end: 20,
+                    filterMode: 'empty'
+                }
+            ],
+            visualMap:[{
+                seriesIndex:0,
+                min: 0,
+                max: DataMax,
+                borderColor:"#ccc",
+                // borderWidth:1,
+                calculable: true,
+                realtime: true,
+                bottom:170,
+                inRange: {
+                    color: ['#FFFFFF', '#A9E975', '#98D63A', '#6CD326','#E3DA48','#F2D03A','#FFB72A','#FFA700','#FF831E',"#FF6B19",'#FF4F12','#FF1D07','#ED0670','#E404A3',"#E103B9",'#D500FF',"#9B01AB", "#6B007F"]
+                },
+            },{
+                seriesIndex:1,
+                min: DataMin,
+                max: 0,
+                borderColor:"#ccc",
+                // borderWidth:1,
+                calculable: true,
+                realtime: true,
+                inRange: {
+                    color: ['#0001E6', '#435EF3', '#81B5FF', '#FFFFFF']
+                },
+            }],
+            series: [{
+                name: 'Vertical Velocity',
+                type: 'heatmap',
+                data: resultP,
+                emphasis: {
+                    itemStyle: {
+                        borderColor: '#333',
+                        borderWidth: 1
+                    }
+                },
+                progressive: 1000,
+                animation: false
+            },{
+                name: 'Vertical Velocity',
+                type: 'heatmap',
+                data: resultN,
+                emphasis: {
+                    itemStyle: {
+                        borderColor: '#333',
+                        borderWidth: 1
+                    }
+                },
+                progressive: 1000,
+                animation: false
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+    
+    function unique(arr) {return Array.from(new Set(arr))}
+    
+    function getData(){
+        var FileName = $("#inputFile").val();
+        if (FileName != ""){
+            var Title = getFileName(FileName).split(".");
+            DataTitle.push(Title[0]);
+        }
+
+        // console.log(result)
+        // console.log(JSON.stringify(result))
+        var t = document.getElementById('loadfile');
+        t.style.display = 'none'; // 隐藏
+        doChart(resultP, resultN);
+        var c = document.getElementById('ChartPanel');
+        c.style.display = 'block'; // 显示图表
+    }
+    </script>
+</html>
