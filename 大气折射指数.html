@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>垂直风速可视化</title>
+    <title>大气折射指数可视化</title>
 
     <link rel="icon" href="./Essential/images/LOGO.png">
     <link rel="stylesheet" type="text/css" href="./Essential/style.css">
@@ -148,9 +148,9 @@
         </ul>
         <ul class="nav" style="float: right;">
             <li style="color: #888888"><a href="./SRH 可视化.html" title="SRH 可视化">SRH 数据可视化</a></li>
-            <li style="font-weight: 800; color: #000000"><a href="./垂直速度显示程序.html" title="垂直速度">垂直速度</a></li>
+            <li style="color: #888888"><a href="./垂直速度显示程序.html" title="垂直速度">垂直速度</a></li>
             <li style="color: #888888"><a href="./水平速度显示程序.html" title="水平速度">水平速度</a></li>
-            <li style="color: #888888"><a href="./大气折射指数.html" title="大气折射指数">大气折射指数</a></li>
+            <li style="font-weight: 800; color: #000000"><a href="./大气折射指数.html" title="大气折射指数">大气折射指数</a></li>
             <li style="color: #888888"><a href="./转换程序.html" title="转换程序">增补自动站数据</a></li>
 		</ul>
 	</div>
@@ -163,7 +163,7 @@
           <div class="card-body">
             <div class="row">
                   <div style="text-align: center;">
-                    <h1 class="h4" style="margin-bottom: 1.5rem; color:#333">加载垂直速度文件</h1>
+                    <h1 class="h4" style="margin-bottom: 1.5rem; color:#333">加载大气折射指数文件</h1>
                   </div>
                   <form class="user" id="registration_form">
                     <div class="form-group">
@@ -221,7 +221,6 @@
     var yData = [0.24, 0.36, 0.48, 0.60, 0.72, 0.84, 0.96, 1.08, 1.20, 1.32, 1.44, 1.56, 1.68, 1.80, 1.92, 2.16, 2.40, 2.64, 2.88, 3.12, 3.36, 3.60, 3.84, 4.08, 4.32, 4.56, 4.80, 5.04, 5.28, 5.52, 5.76, 6.00, 6.24, 6.48, 6.72, 6.96, 7.20, 7.44, 7.68, 7.92, 8.16, 8.40, 8.64, 8.88, 9.12, 9.36, 9.60, 9.84, 10.08, 10.32, 10.56, 10.80, 11.04, 11.28, 11.52, 11.76, 12.00, 12.24, 12.48, 12.72, 12.96, 13.20, 13.44, 13.68, 13.92, 14.16, 14.40];
     var resultL = [];
     var resultP = [];
-    var resultN = [];
     var DataMax = 0;
     var DataMin = 0;
     var DataSecMin = 0;
@@ -232,7 +231,7 @@
         reader.readAsText(file,'utf-8');
         reader.onloadend = function() {
             var fileContent=this.result;
-            var arrLine=fileContent.split("\n"); // 按行拆分
+            var arrLine=fileContent.split("\n");
             for (var i = 0; i < arrLine.length; i++){ // 遍历所有行
                 var LineContent = arrLine[i].split(","); // 每一行的内容
                 var currentTime = [];
@@ -253,25 +252,19 @@
                         };
                     if (value > DataMax){DataMax = value}
                     
-                    if (value > 15){
+                    if (value > 150){
                         resultL.push([currentTime, height, value]);
                     }
                     
-                    if (value >= 0 && value <= 15){
+                    if (value <= 150){
                         resultP.push([currentTime, height, value]);
                     }
-                    if (value < 0){
-                        resultN.push([currentTime, height, value]);
-                    }
-                    // result.push([currentTime, j-2, value]);
                 }
             }
-            // console.log(DataMax)
-            // console.log(DataMin)
         }
     }
 
-    function doChart(resultP, resultN, resultL){
+    function doChart(resultP, resultL){
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('chart'));
         option = {
@@ -281,11 +274,12 @@
                     align:'left'
                 },
                 formatter: function (params) {
-                    // console.log(params); // 当我们想要自定义提示框内容时，可以先将鼠标悬浮的数据打印出来，然后根据需求提取出来即可
+                    console.log(params); // 当我们想要自定义提示框内容时，可以先将鼠标悬浮的数据打印出来，然后根据需求提取出来即可
+                    // var height = params.data[2];
                     var x = params.data[0];
                     var y = params.data[1];
                     var value = params.data[2];
-                    return "时间: " + x + '<br>' + "高度: " + y + ' KM<br>' + "垂直速度: " + value + '<br>';
+                    return "时间: " + x + '<br>' + "高度: " + y + ' KM<br>' + "大气折射结构常数: " + value + '×10⁻¹⁷<br>';
                 }
             },
             title: {
@@ -332,43 +326,32 @@
                 }
             ],
             visualMap:[{
-                itemHeight:70,
+                itemHeight:130,
                 seriesIndex:0,
-                min: 15,
+                min: 150,
                 max: DataMax,
                 borderColor:"#ccc",
                 calculable: true,
                 realtime: true,
-                bottom:300,
+                bottom:260,
                 inRange: {
-                    color: ['#643C8D','#950094','#8326C2',"#6C5AFF",'#000000']
+                    // color: ['#643C8D','#950094','#8326C2',"#6C5AFF"]
+                    // color: ['#B08CF8','#950094','#8326C2',"#6C5AFF"]
+                    color: ['#8326C2',"#6C5AFF"]
                 },
             },{
-                itemHeight:140,
+                itemHeight:180,
                 seriesIndex:1,
                 min: 0,
-                max:15,
+                max:150,
                 borderColor:"#ccc",
                 // borderWidth:1,
                 calculable: true,
                 realtime: true,
-                bottom:130,
-                inRange: {
-                    color: ['#FFFFFF','#AEA8F0','#6155E3','#1705D5','#0B9AE9','#05EFED','#21F403','#0AC111','#049110','#FEF916','#E9BD1E','#FC8E17','#F70A0B','#D4030B','#B70510','#F706F2','#7C067E','#B08CF8']
-                },
-            },{
                 bottom:50,
-                itemHeight:50,
-                seriesIndex:2,
-                min: DataMin,
-                max: 0,
-                borderColor:"#ccc",
-                // borderWidth:1,
-                calculable: true,
-                realtime: true,
                 inRange: {
-                    // color: ['#0001E6', '#435EF3', '#81B5FF', '#FFFFFF']
-                    color: ['#1B363F','#96E4FF','#FFFFFF']
+                    // color: ['#FFFFFF','#AEA8F0','#6155E3','#1705D5','#0B9AE9','#05EFED','#21F403','#0AC111','#049110','#FEF916','#E9BD1E','#FC8E17','#F70A0B','#D4030B','#B70510','#F706F2','#7C067E','#B08CF8','#950094','#8326C2']
+                    color: ['#FFFFFF','#AEA8F0','#6155E3','#1705D5','#0B9AE9','#05EFED','#21F403','#0AC111','#049110','#FEF916','#E9BD1E','#FC8E17','#F70A0B','#D4030B','#B70510','#F706F2','#7C067E','#950094','#8326C2']
                 },
             }],
             series: [{
@@ -387,18 +370,6 @@
                 name: 'Vertical Velocity',
                 type: 'heatmap',
                 data: resultP,
-                emphasis: {
-                    itemStyle: {
-                        borderColor: '#333',
-                        borderWidth: 1
-                    }
-                },
-                progressive: 1000,
-                animation: false
-            },{
-                name: 'Vertical Velocity',
-                type: 'heatmap',
-                data: resultN,
                 emphasis: {
                     itemStyle: {
                         borderColor: '#333',
@@ -426,7 +397,7 @@
         // console.log(JSON.stringify(result))
         var t = document.getElementById('loadfile');
         t.style.display = 'none'; // 隐藏
-        doChart(resultP, resultN, resultL);
+        doChart(resultP, resultL);
         var c = document.getElementById('ChartPanel');
         c.style.display = 'block'; // 显示图表
         c.style.backgroundColor = '#CCCCCC';
