@@ -280,9 +280,9 @@ function toTimeZone(time) {
 
                     result.push({
                         "time": CSTtime,
-                        "t02": parseFloat(item[2]),
-                        "t25": parseFloat(item[3]),
-                        "t58": parseFloat(item[4]),
+                        "t_btm": parseFloat(item[2]),
+                        "t_mdl": parseFloat(item[3]),
+                        "t_top": parseFloat(item[4]),
                         "p_QD": parseFloat(item[5]),
                         "p_JZ": parseFloat(item[6]),
                     });
@@ -309,7 +309,7 @@ function toTimeZone(time) {
     dataset: {
         // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
         // 如果不指定 dimensions，也可以通过指定 series.encode 完成映射，参见后文。
-        dimensions: ['time', 't02', 't25', 't58', 'p_QD', 'p_JZ'],
+        dimensions: ['time', 't_btm', 't_mdl', 't_top', 'p_QD', 'p_JZ'],
         source: result,
     },
     title: {
@@ -322,7 +322,7 @@ function toTimeZone(time) {
         trigger: 'axis'
     },
     legend: {
-        data: ['0-2 KM', '2-5 KM', '5-8 KM', '青岛降水量', '胶州降水量' ],
+        data: ['0-2 KM', '2-5 KM', '5-14 KM', '青岛降水量', '胶州降水量' ],
         // left: 20
     },
     toolbox: {
@@ -383,21 +383,21 @@ function toTimeZone(time) {
             type: 'line',
             symbol: 'none',
             lineStyle:{color:'#4DC85D'},
-            data : result.t02,
+            data : result.t_btm,
         },
         {
             name: '2-5 KM',
             type: 'line',
             symbol: 'none',
             lineStyle:{color:'#FF6868'},
-            data : result.t25,
+            data : result.t_mdl,
         },
         {
-            name: '5-8 KM',
+            name: '5-14 KM',
             type: 'line',
             symbol: 'none',
             lineStyle:{color:'#4AA8FF'},
-            data : result.t58,
+            data : result.t_top,
             markLine: {
                 silent: true,
                 data: [{yAxis: 100},{yAxis: 200}],
@@ -436,8 +436,6 @@ function toTimeZone(time) {
         var FileName = $("#inputFile").val();
         if (FileName != ""){
             var Title = getFileName(FileName).split(".");
-            // result.title.push(Title[0]);
-            // if (T02Title[1] != "T02"){alert('提示: 0-2KM 文件可能选错了.');}
         }
 
         console.log(result)
