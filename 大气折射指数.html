@@ -286,6 +286,9 @@
                 text: DataTitle,
                 left: 20,
             },
+            // grid:{
+            //     right: "30%"
+            // },
             toolbox: {
                 show: true,
                 feature: {
@@ -334,25 +337,37 @@
                 calculable: true,
                 realtime: true,
                 bottom:260,
+                right:"40",
                 inRange: {
                     // color: ['#643C8D','#950094','#8326C2',"#6C5AFF"]
                     // color: ['#B08CF8','#950094','#8326C2',"#6C5AFF"]
                     color: ['#8326C2',"#6C5AFF"]
                 },
+                // formatter: function (value) {                 //标签的格式化工具。
+                //     return value + '×10⁻¹⁷';                    // 范围标签显示内容。
+                // }
             },{
                 itemHeight:180,
                 seriesIndex:1,
                 min: 0,
                 max:150,
+                align:"bottom",
                 borderColor:"#ccc",
                 // borderWidth:1,
                 calculable: true,
                 realtime: true,
                 bottom:50,
+                right:"40",                              //组件离容器左侧的距离,'left', 'center', 'right','20%'
+                // top:"top",                                   //组件离容器上侧的距离,'top', 'middle', 'bottom','20%'
+                // right:"-10%",                               //组件离容器右侧的距离,'20%', ‘auto’
+                // orient:"vertical",                         //图例排列方向
                 inRange: {
                     // color: ['#FFFFFF','#AEA8F0','#6155E3','#1705D5','#0B9AE9','#05EFED','#21F403','#0AC111','#049110','#FEF916','#E9BD1E','#FC8E17','#F70A0B','#D4030B','#B70510','#F706F2','#7C067E','#B08CF8','#950094','#8326C2']
                     color: ['#FFFFFF','#AEA8F0','#6155E3','#1705D5','#0B9AE9','#05EFED','#21F403','#0AC111','#049110','#FEF916','#E9BD1E','#FC8E17','#F70A0B','#D4030B','#B70510','#F706F2','#7C067E','#950094','#8326C2']
                 },
+                // formatter: function (value) {                 //标签的格式化工具。
+                //     return value + '×10⁻¹⁷';                    // 范围标签显示内容。
+                // }
             }],
             series: [{
                 name: 'Vertical Velocity',
